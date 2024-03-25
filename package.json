@@ -1,0 +1,16 @@
+{
+  "name": "todo-v2-backend",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Backend for my to-do-v2 ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Ayush Kathayat",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.1",
+    "mongoose": "^8.2.3"
+  }
+}
