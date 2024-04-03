@@ -3,33 +3,20 @@ import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
+import connectDB from "./configs/databaseConnection.js";   //dont forget to add the .js extension'
+import router from "./routes/tasksRoutes.js";
 
-mongoose
-  .connect("mongodb://127.0.0.1:27017", {
-    // connection to the database
-    dbName: "todo-backend",
-  })
-  .then(() => {
-    console.log("Connected to the database");
-  })
-  .catch((err) => {
-    console.log("Error connecting to the database", err);
-  });
+
 
 const PORT = 5050;
 const app = express();
 
 // middlewares
-
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
-
 // parse application/json
 app.use(bodyParser.json());
-
 // Enable All CORS Requests
-// app.use(cors());
-
 app.use(
   cors({
     origin: "http://localhost:5173", // replace with the domain of your front-end app
@@ -40,35 +27,41 @@ app.use(
 
 app.use(cookieParser());
 
-app.get("/", (req, res) => {
-  // console.log(req.cookies);
-  res.send("Hello World");
-});
+app.use("/api/v2", router); // using the routes
 
-// creating a new user
 
-app.post("/api/auth/signup", (req, res) => {
-  const { username, email, password } = req.body;
+// database connection
 
-  user
-    .create({
-      name: username,
-      email: email,
-      password: password,
-    })
-    .then(() => {
-      res.cookie("token", "I AM Ayush", {
-        sameSite: "lax",
-        secure: false,
-        httpOnly: true,
-      });
-      res.json({ message: "Form submitted successfully" });
-    })
-    .catch((err) => {
-      console.error(err); // Log the error for debugging
-      res.status(500).send("An error occurred during signup.");
-    });
-});
+connectDB();       // calling the function to connect to the database
+
+// app.get("/", (req, res) => {
+//   // console.log(req.cookies);
+//   res.send("Hello World");
+// });
+
+
+// app.post("/api/auth/signup", (req, res) => {
+//   const { username, email, password } = req.body;
+
+//   user
+//     .create({
+//       name: username,
+//       email: email,
+//       password: password,
+//     })
+//     .then(() => {
+//       res.cookie("token", "I AM Ayush", {
+//         sameSite: "lax",
+//         secure: false,
+//         httpOnly: true,
+//       });
+//       res.json({ message: "Form submitted successfully" });
+//     })
+//     .catch((err) => {
+//       console.error(err); // Log the error for debugging
+//       res.status(500).send("An error occurred during signup.");
+//     });
+// });
 // app.get("/api/auth/check-token", (req, res) => {
 //   const token = req.cookies["token"];
 

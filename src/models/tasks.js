@@ -6,20 +6,21 @@ import mongoose from "mongoose";
 
 const taskSchemaTodov2 = new mongoose.Schema({
   // creation of schema
-  title : {
-    type : String,
-    required : true,
-    trim : true,
+  taskTitle: {
+    type: String,
+    required: true,
+    trim: true,
   },
-  description : {
-    type : String,
-    trim : true,
+  description: {
+    type: String,
+    trim: true,
   },
-  completed : {
-    type : Boolean,
-    default : false,
-  }
+  completed: {
+    type: Boolean,
+    default: false,
+  },
 });
 
+const Task = mongoose.model("Tasks", taskSchemaTodov2); // COLLECTION  // or models
 
-const task  = mongoose.model("Tasks", taskSchemaTodov2); // COLLECTION  // or models
+export default Task;
