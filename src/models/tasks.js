@@ -8,7 +8,6 @@ const taskSchemaTodov2 = new mongoose.Schema({
   // creation of schema
   taskTitle: {
     type: String,
-    required: true,
     trim: true,
   },
   description: {
