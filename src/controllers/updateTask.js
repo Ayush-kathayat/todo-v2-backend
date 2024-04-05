@@ -1,5 +1,5 @@
-import Task from "../models/tasks";
-
+import Task from "../models/tasks.js"; //! don't forget to .js extension
+import mongoose from "mongoose";
 const updateTask = async (req, res) => {
   const { id: _id } = req.params;
   const task = req.body;
@@ -19,3 +19,5 @@ const updateTask = async (req, res) => {
     console.log(error.message || "Some error occurred while updating the Task");
   }
 };
+
+export default updateTask;
