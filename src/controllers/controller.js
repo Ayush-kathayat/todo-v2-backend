@@ -5,4 +5,10 @@ import deleteTask from "./deleteTask.js";
 import showTasks from "./showTasks.js";
 import updateTask from "./updateTask.js";
 
-export { createTask, deleteTask, showTasks , updateTask};
+
+//! user controllers
+
+import register from "./register.js";
+import login from "./login.js";
+
+export { createTask, deleteTask, showTasks , updateTask, register, login};
