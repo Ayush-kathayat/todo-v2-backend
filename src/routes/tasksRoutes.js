@@ -14,6 +14,6 @@ taskRouter.delete("/task/:userId/:taskId", deleteTask); // delete task by id  an
 
 taskRouter.get("/tasks", showTasks); // get all the tasks (we are not going to use any id here because we are going to get all the tasks
 
-taskRouter.patch('/task/:id', updateTask);// update the task by id and we will get the id from the query params dont forget to pass the new task in the body
+taskRouter.patch('/task/:userId/:taskId', updateTask);// update the task by id and we will get the id from the query params dont forget to pass the new task in the body
 
 export default taskRouter;

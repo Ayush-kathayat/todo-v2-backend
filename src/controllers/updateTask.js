@@ -1,22 +1,35 @@
 import Task from "../models/tasks.js"; //! don't forget to .js extension
-import mongoose from "mongoose";
+import User from "../models/users.js"; //! don't forget to .js extension
 const updateTask = async (req, res) => {
-  const { id: _id } = req.params;
-  const task = req.body;
-
+  const userId = req.params.userId; // Assuming the user's ID is attached to the request object
+  const taskId = req.params.taskId;
+  const { taskTitle, description, completed } = req.body;
+ 
   try {
-    if (!mongoose.Types.ObjectId.isValid(_id))
-      return res.status(404).send("No task with that id");
-
-    const updatedTask = await Task.findByIdAndUpdate(
-      _id,                    
-      { ...task, _id },       //! destructuring the task and adding the same id to the task
-      { new: true }
-    );
-
-    res.json(updatedTask);
-  } catch (error) {
-    console.log(error.message || "Some error occurred while updating the Task");
+     const user = await User.findById(userId);
+     if (!user) {
+       return res.status(404).json({ message: 'User not found' });
+     }
+ 
+     // Find the task in the user's tasks array
+     const taskIndex = user.tasks.findIndex(task => task.equals(taskId));
+     if (taskIndex === -1) {
+       return res.status(404).json({ message: 'Task not found' });
+     }
+ 
+     // Update the task
+     const task = await Task.findById(taskId);
+     if (!task) {
+       return res.status(404).json({ message: 'Task not found' });
+     }
+     task.taskTitle = taskTitle;
+     task.description = description;
+     task.completed = completed;
+     await task.save();
+ 
+     res.status(200).json(task);
+  } catch (err) {
+     res.status(500).json({ message: err.message });
   }
 };
 
