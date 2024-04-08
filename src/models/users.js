@@ -2,6 +2,7 @@
 
 
 import mongoose from "mongoose";
+import Task from "./tasks.js";
 
 
 //schema
@@ -19,7 +20,7 @@ const userSchemaTodoV2 = new mongoose.Schema({
   tasks: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Task",
+      ref: Task,
     },
   ],
 });
