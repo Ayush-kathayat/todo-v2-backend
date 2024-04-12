@@ -1,18 +1,22 @@
-//! here we will import the model we created 
+//! here we will import the model we created
 
-import Task from '../models/tasks.js';
-import User from '../models/users.js';
+import Task from "../models/tasks.js";
+import User from "../models/users.js";
 const showTasks = async (req, res) => {
-  const { userId } = req.body; // destructuring the request body
+  if (!req.isAuthenticated()) {
+    return res.status(401).json({ message: "Unauthorized" });
+  }
 
- try {
-    const user = await User.findById(userId).populate('tasks');
-    if (!user) {
-      return res.status(404).json({ message: 'User not found' });
-    }
+  try {
+    // No need to find the user by ID, because Passport.js has already attached the user to req.user
+    //  const user = await User.findById(userId).populate('tasks');
+    const user = await User.findById(req.user._id);
+
+    await user.populate('tasks').execPopulate();
+
     res.status(200).json(user.tasks);
- } catch (err) {
+  } catch (err) {
     res.status(500).json({ message: err.message });
- }
-}
+  }
+};
 export default showTasks;

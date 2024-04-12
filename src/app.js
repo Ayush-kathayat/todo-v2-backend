@@ -8,6 +8,8 @@ import passport from "passport";
 import session from "express-session";
 import taskRouter from "./routes/tasksRoutes.js";
 import userRouter from "./routes/userRoutes.js";
+import initializePassport from './configs/passport.js';
+
 
 const PORT = 5050;
 const app = express();
@@ -33,12 +35,18 @@ app.use(
     secret: "secret",
     resave: true,
     saveUninitialized: true,
-    // cookie: { maxAge: 60000 },
+    cookie: { 
+      maxAge: 24 * 60 * 60 * 1000, // 24 hours
+      secure: false, // set this to true if you're using HTTPS
+      sameSite: 'none', // 'none', 'lax', or 'strict'
+    },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+initializePassport(); // calling the function to initialize passport
 
 app.use("/api/v2", taskRouter); // using the task routes
 
