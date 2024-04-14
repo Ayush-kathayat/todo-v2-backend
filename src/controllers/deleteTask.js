@@ -2,10 +2,15 @@ import Task from "../models/tasks.js";
 import User from "../models/users.js";
 
 const deleteTask = async (req, res) => {
-  const userId = req.params.userId;
+  // const userId = req.params.userId;  //! dont need this now we have req.user from passport 
+
+
+  if(!req.isAuthenticated()){
+    return res.status(401).json({message: "Unauthorized"})
+  }
   const taskId = req.params.taskId;
   try {
-    const user = await User.findById(userId);
+    const user = await User.findById(req.user._id);
     if (!user) return res.status(404).send("No user found");
 
     // Remove the task ID from the user's tasks array

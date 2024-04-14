@@ -33,12 +33,12 @@ app.use(cookieParser());
 app.use(
   session({
     secret: "secret",
-    resave: true,
+    resave: false,
     saveUninitialized: true,
     cookie: { 
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
       secure: false, // set this to true if you're using HTTPS
-      sameSite: 'none', // 'none', 'lax', or 'strict'
+      sameSite: 'lax', // 'none', 'lax', or 'strict'
     },
   })
 );

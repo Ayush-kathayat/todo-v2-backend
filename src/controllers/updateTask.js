@@ -1,12 +1,17 @@
 import Task from "../models/tasks.js"; //! don't forget to .js extension
 import User from "../models/users.js"; //! don't forget to .js extension
 const updateTask = async (req, res) => {
-  const userId = req.params.userId; // Assuming the user's ID is attached to the request object
+  // const userId = req.params.userId; // Assuming the user's ID is attached to the request object //! dont assume anything
+
+  if(!req.isAuthenticated()){
+    return  res.status(401).json({message : "hat laude"});
+  }
+
   const taskId = req.params.taskId;
   const { taskTitle, description, completed } = req.body;
  
   try {
-     const user = await User.findById(userId);
+     const user = await User.findById(req.user._id);
      if (!user) {
        return res.status(404).json({ message: 'User not found' });
      }

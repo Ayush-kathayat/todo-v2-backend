@@ -10,5 +10,6 @@ import updateTask from "./updateTask.js";
 
 import register from "./register.js";
 import login from "./login.js";
+import logout from "./logout.js";
 
-export { createTask, deleteTask, showTasks , updateTask, register, login};
+export { createTask, deleteTask, showTasks , updateTask, register, login, logout};
