@@ -17,15 +17,9 @@ const register = async (req, res, next) => {
     const user = new User({ name, username, password });  // create a new user
     await user.save();
 
-    // Log the user in after registration
-    req.logIn(user, (err) => {
-      if (err) {
-        return next(err);
-      }
-      return res.status(201).send(user);
-    });
+    res.status(201).json({ message: "User created successfully" });
   } catch (error) {
-    console.log(error.message || "Some error occurred while registering a User");
+    res.status(409).json({error: error.message}); // Pass the error to the next middleware
   }
 }
 
