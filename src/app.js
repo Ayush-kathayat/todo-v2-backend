@@ -19,7 +19,7 @@ import initializePassport from './configs/passport.js';
 
 const PORT = process.env.PORT || 5050;
 const app = express()
-
+// console.log(process.env.ORIGIN);
 // middlewares
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -28,7 +28,7 @@ app.use(bodyParser.json());
 // Enable All CORS Requests
 app.use(
   cors({
-    origin: "http://localhost:5173", // replace with the domain of your front-end app Change it for the deployment
+    origin: process.env.ORIGIN, // replace with the domain of your front-end app Change it for the deployment
     credentials: true,
     methods: "GET,PUT,POST,DELETE",
   })
