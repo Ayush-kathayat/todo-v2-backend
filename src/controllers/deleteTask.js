@@ -2,13 +2,13 @@ import Task from "../models/tasks.js";
 import User from "../models/users.js";
 
 const deleteTask = async (req, res) => {
-  // const userId = req.params.userId;  //! dont need this now we have req.user from passport 
+  // const userId = req.params.userId;  //! dont need this now we have req.user from passport
 
-
-  if(!req.isAuthenticated()){
-    return res.status(401).json({message: "Unauthorized"})
-  }
+  // if (!req.isAuthenticated()) {
+  //   return res.status(401).json({ message: "Unauthorized" });
+  // }
   const taskId = req.params.taskId;
+    console.log(taskId);
   try {
     const user = await User.findById(req.user._id);
     if (!user) return res.status(404).send("No user found");
@@ -20,7 +20,10 @@ const deleteTask = async (req, res) => {
     // and then at last Delete the task document from the database  cause its no more of use now
     await Task.findByIdAndDelete(taskId);
 
-    res.status(200).json({ message: "Task deleted successfully" });
+     // Populate the user's tasks
+     await user.populate('tasks').exec();
+
+     res.status(200).json({ message: "Task deleted successfully", tasks: user.tasks });
   } catch (error) {
     console.log(error.message || "Some error occurred while deleting a Task");
   }

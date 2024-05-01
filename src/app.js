@@ -1,3 +1,8 @@
+import dotenv from 'dotenv';
+if (process.env.NODE_ENV !== 'production') {
+  dotenv.config({ path: '/home/ayushkathayat/WEBDEV/todo-v2/todo-v2-backend/.env' });
+
+}
 import express from "express";
 import mongoose from "mongoose";
 import bodyParser from "body-parser";
@@ -11,8 +16,9 @@ import userRouter from "./routes/userRoutes.js";
 import initializePassport from './configs/passport.js';
 
 
-const PORT = 5050;
-const app = express();
+
+const PORT = process.env.PORT || 5050;
+const app = express()
 
 // middlewares
 // parse application/x-www-form-urlencoded
@@ -22,7 +28,7 @@ app.use(bodyParser.json());
 // Enable All CORS Requests
 app.use(
   cors({
-    origin: "http://localhost:5173", // replace with the domain of your front-end app
+    origin: "http://localhost:5173", // replace with the domain of your front-end app Change it for the deployment
     credentials: true,
     methods: "GET,PUT,POST,DELETE",
   })
