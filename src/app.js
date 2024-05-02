@@ -4,7 +4,6 @@ if (process.env.NODE_ENV !== 'production') {
 
 }
 import express from "express";
-import mongoose from "mongoose";
 import bodyParser from "body-parser";
 import cors from "cors";
 import cookieParser from "cookie-parser";
@@ -14,6 +13,7 @@ import session from "express-session";
 import taskRouter from "./routes/tasksRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import initializePassport from './configs/passport.js';
+import { trusted } from 'mongoose';
 
 
 
@@ -36,15 +36,16 @@ app.use(
 
 app.use(cookieParser());
 // passport middleware
+
 app.use(
   session({
     secret: "secret",
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: { 
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      secure: true, // set this to true if you're using HTTPS
-      sameSite: 'none', // 'none', 'lax', or 'strict'
+      secure: process.env.NODE_ENV === 'production', // set this to true if you're using HTTPS
+      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none', 'lax', or 'strict'
     },
   })
 );
