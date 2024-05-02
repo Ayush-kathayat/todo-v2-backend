@@ -19,7 +19,7 @@ import initializePassport from './configs/passport.js';
 
 const PORT = process.env.PORT || 5050;
 const app = express()
-// console.log(process.env.ORIGIN);
+// console.log();
 // middlewares
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -40,10 +40,10 @@ app.use(
   session({
     secret: "secret",
     resave: false,
-    saveUninitialized: true,
+    saveUninitialized: false,
     cookie: { 
       maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      secure: false, // set this to true if you're using HTTPS
+      secure: true, // set this to true if you're using HTTPS
       sameSite: 'none', // 'none', 'lax', or 'strict'
     },
   })
