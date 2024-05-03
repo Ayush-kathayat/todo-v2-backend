@@ -13,8 +13,7 @@ import session from "express-session";
 import taskRouter from "./routes/tasksRoutes.js";
 import userRouter from "./routes/userRoutes.js";
 import initializePassport from './configs/passport.js';
-import { trusted } from 'mongoose';
-
+import MongoStore from 'connect-mongo';
 
 
 const PORT = process.env.PORT || 5050;
@@ -37,18 +36,19 @@ app.use(
 app.use(cookieParser());
 // passport middleware
 
-app.use(
-  session({
-    secret: "secret",
-    resave: false,
-    saveUninitialized: true,
-    cookie: { 
-      maxAge: 24 * 60 * 60 * 1000, // 24 hours
-      secure: process.env.NODE_ENV === 'production', // set this to true if you're using HTTPS
-      sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none', 'lax', or 'strict'
-    },
-  })
-);
+
+app.use(session({
+  secret: 'secret',
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({ 
+    mongoUrl: process.env.MONGO_URI || 'mongodb://localhost:27017/todo-v2-backend', 
+    collectionName: 'sessions' 
+  }),
+  cookie: {
+    maxAge: 24 * 60 * 60 * 1000 // 24 hours
+  }
+}));
 
 app.use(passport.initialize());
 app.use(passport.session());
