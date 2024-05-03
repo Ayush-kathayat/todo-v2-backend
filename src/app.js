@@ -27,7 +27,7 @@ app.use(bodyParser.json());
 // Enable All CORS Requests
 app.use(
   cors({
-    origin: true, // replace with the domain of your front-end app Change it for the deployment
+    origin: 'https://task-flows.netlify.app', // replace with the domain of your front-end app Change it for the deployment
     credentials: true,
     methods: "GET,PUT,POST,DELETE",
   })
